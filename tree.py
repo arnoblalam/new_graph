@@ -36,10 +36,8 @@ class Node(object):
                     name="(" + str(agg[0].name) + "," + str(agg[1].name) + ")", 
                     weight = agg[0].weight + agg[1].weight,
                     children=agg[0].children|agg[1].children)
-            if agg[0].name != self.name and agg[1].name !=self.name:
-                # Copy the current node
-                # Remove old nodes
-                # Add nre node
+            if agg[0].name != self.name and agg[1].name != self.name:
+               n = Node(name=self.name, weight=self.weight, children = [n])
             results.add(n)
         return results
         
