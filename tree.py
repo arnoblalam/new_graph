@@ -41,3 +41,7 @@ class Node(object):
             results.add(n)
         return results
         
+    @staticmethod
+    def tree_aggregate(tree):
+        for node in tree:
+            
