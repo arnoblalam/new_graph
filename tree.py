@@ -17,7 +17,9 @@ class Node(object):
             self.weight, self.children)
             
     def __iter__(self):
-        return (self.children | {self} ).iter()
+        for v in chain(*imap(iter, self.children)):
+            yield v
+        yield self
     
     def add_node(self, node):
         """node (Node): The node to add
