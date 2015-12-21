@@ -42,6 +42,7 @@ class Node(object):
                     name="(" + str(agg[0].name) + "," + str(agg[1].name) + ")", 
                     weight = agg[0].weight + agg[1].weight,
                     children=agg[0].children|agg[1].children)
+            n.children = set(filter(lambda x: x.name != agg[0].name and x.name != agg[1].name, n.children))
             if agg[0].name != self.name and agg[1].name != self.name:
                n = Node(name=self.name, weight=self.weight, children = [n])
             results.add(n)
