@@ -13,7 +13,11 @@ class Node(object):
         self.children = set(children)
         
     def __repr__(self):
-        return "Node(name={}, weight={}, children={})".format(self.name, self.weight, self.children)
+        return "Node(name={}, weight={}, children={})".format(self.name, 
+            self.weight, self.children)
+            
+    def __iter__(self):
+        return (self.children | {self} ).iter()
     
     def add_node(self, node):
         """node (Node): The node to add
@@ -44,4 +48,6 @@ class Node(object):
     @staticmethod
     def tree_aggregate(tree):
         for node in tree:
+            possible_aggregations = node.aggregate()
+            print possible_aggregations
             
