@@ -49,7 +49,7 @@ class Node(object):
         
     @staticmethod
     def tree_aggregate(tree):
+        results = set()
         for node in tree:
-            possible_aggregations = node.aggregate()
-            print possible_aggregations
-            
+            results = results | node.aggregate()
+        return results
