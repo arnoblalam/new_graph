@@ -1,4 +1,4 @@
-from itertools import combinations
+from itertools import combinations, chain, imap
 
 class Node(object):
     """A node of a tree"""
