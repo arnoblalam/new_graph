@@ -3,13 +3,13 @@ from itertools import combinations, chain, imap
 class Node(object):
     """A node of a tree"""
 
-    def __init__(self, name, weight, children):
-        """name: The name for the node
-        weight (num): The weight on the node
+    def __init__(self, name, weight, children=set()):
+        """name (string): The name for the node
+        weight (numeric): The weight on the node
         children (list): A list of child nodes
         """
-        self.name = name
-        self.weight = weight
+        self.name = str(name)
+        self.weight = float(weight)
         self.children = set(children)
         
     def __repr__(self):
