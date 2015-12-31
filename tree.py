@@ -1,56 +1,103 @@
 from itertools import combinations, chain, imap
+import collections
+import cPickle
 
-class Node(object):
-    """A node of a tree"""
-
-    def __init__(self, name, weight, children=set()):
-        """name (string): The name for the node
-        weight (numeric): The weight on the node
-        children (list): A list of child nodes
-        """
-        self.name = str(name)
-        self.weight = float(weight)
-        self.children = set(children)
-        
-    def __repr__(self):
-        return "Node(name={}, weight={}, children={})".format(self.name, 
-            self.weight, self.children)
-            
-    def __iter__(self):
-        for v in chain(*imap(iter, self.children)):
-            yield v
-        yield self
+def deepcopy(obj):
+    return cPickle.loads(cPickle.dumps(obj, -1))
     
-    def add_node(self, node):
-        """node (Node): The node to add
-        """
-        self.children.add(node)
+def flatten(l):
+    for el in l:
+        if isinstance(el, collections.Iterable) and not isinstance(el, basestring):
+            for sub in flatten(el):
+                yield sub
+        else:
+            yield el
+
+def possible_aggregations(t):
+    results = set()
+    for level, children in t.iteritems():
+        x = children | set([level])
+        results |= set(combinations(x, 2))
+    #flattened_results = []
+    #for element in results:
+    #    flattened_results.append(list(flatten(element)))
+    #print flattened_results
+    #to_delete = []
+    #for element in flattened_results:
+    #    idx = [i for i, x in enumerate(flattened_results) if x == element]
+    #    #print(element)
+    #    #print(flattened_results)
+    #    #print(idx)
+    #    idx.pop()
+    #    to_delete.append(idx)
+    #    #print(idx)
+    #to_delete = list(flatten(to_delete))
+    #results = list(results)
+    ##raw_input()
+    #for k in to_delete:
+    #    results.pop(k)
+    return results
+    
+def merge_nodes(t, nodes_to_merge):
+    copy_of_tree = deepcopy(t)
+    a, b = nodes_to_merge
+    try:
+        children_of_a = t[a] - set([b])
+        children_of_b = t[b] - set([a])
+    except:
+        print t
+        raise
+    combined_children = children_of_a | children_of_b
+    for k, v in copy_of_tree.iteritems():
+        if (a in v) or (b in v):
+            copy_of_tree[k].discard(a)
+            copy_of_tree[k].discard(b)
+            copy_of_tree[k].add((a, b))
+    copy_of_tree.pop(a, None)
+    copy_of_tree.pop(b, None)
+    copy_of_tree[(a, b)] = combined_children
+    return copy_of_tree
+    
+def apply_aggregation(t, node_data, f=lambda x, y: x+y):
+    """Create the new tree t by applying the aggregations to weights described in node_data"""
+    try:
+        result = dict()
+        for k, v in t.iteritems():
+            if type(k) is not tuple:
+                result[k] = node_data[k]
+            else:
+                result[k] = apply_tuple(k, node_data, f)
+        return result
+    except:
+        print(t)
+        raise
         
-    def possible_aggregations(self):
-        """Show the possible aggregations of the current node
-        """
-        x = self.children | {self} 
-        return(combinations(x, 2))
+def apply_tuple(t, n, f):
+    if type(t[0]) is not tuple and type(t[1]) is not tuple:
+        return f(n[t[0]], n[t[1]])
+    elif type(t[0]) is tuple and type(t[1]) is tuple:
+        return f(apply_tuple(t[0], n, f), apply_tuple(t[1], n, f))
+    elif type(t[0]) is tuple:
+        return f(apply_tuple(t[0], n, f), n[t[1]])
+    elif type(t[1]) is tuple:
+        return f(n[t[0]], apply_tuple(t[1], n, f))
         
-    def aggregate(self):
-        """Aggregate this node
-        """
-        possible_aggs = self.possible_aggregations()
-        results = set()
-        for agg in possible_aggs:
-            n = Node(
-                    name="(" + str(agg[0].name) + "," + str(agg[1].name) + ")", 
-                    weight = agg[0].weight + agg[1].weight,
-                    children=agg[0].children|agg[1].children)
-            n.children = set(filter(lambda x: x.name != agg[0].name and x.name != agg[1].name, n.children))
-            if agg[0].name != self.name and agg[1].name != self.name:
-               n = Node(name=self.name, weight=self.weight, children = [n])
-            results.add(n)
-        return results
-        
-    @staticmethod
-    def tree_aggregate(tree):
-        results = set()
-        for node in tree:
-            results = results | node.aggregate()
-        return results
+def reduce_tree(t):
+    return [merge_nodes(t, x) for x in possible_aggregations(t)]
+    
+def reduce_n_times(t, n):
+    results = set()
+    current_batch = reduce_tree(t)
+    for x in current_batch:
+        results.add(str(x))
+    for _ in range(1, n):
+        temp = []
+        for tree in current_batch:
+            temp += reduce_tree(tree)
+            #for x in temp:
+            #    #print(x)
+            #    results.add(str(x))
+        current_batch = temp
+        print current_batch
+    results_ = [eval(x) for x in results]
+    return results_         
