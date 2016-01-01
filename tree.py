@@ -1,6 +1,7 @@
 from itertools import combinations, chain, imap
 import collections
 import cPickle
+import networkx as nx
 
 def deepcopy(obj):
     return cPickle.loads(cPickle.dumps(obj, -1))
@@ -18,24 +19,6 @@ def possible_aggregations(t):
     for level, children in t.iteritems():
         x = children | set([level])
         results |= set(combinations(x, 2))
-    #flattened_results = []
-    #for element in results:
-    #    flattened_results.append(list(flatten(element)))
-    #print flattened_results
-    #to_delete = []
-    #for element in flattened_results:
-    #    idx = [i for i, x in enumerate(flattened_results) if x == element]
-    #    #print(element)
-    #    #print(flattened_results)
-    #    #print(idx)
-    #    idx.pop()
-    #    to_delete.append(idx)
-    #    #print(idx)
-    #to_delete = list(flatten(to_delete))
-    #results = list(results)
-    ##raw_input()
-    #for k in to_delete:
-    #    results.pop(k)
     return results
     
 def merge_nodes(t, nodes_to_merge):
@@ -94,10 +77,11 @@ def reduce_n_times(t, n):
         temp = []
         for tree in current_batch:
             temp += reduce_tree(tree)
-            #for x in temp:
-            #    #print(x)
-            #    results.add(str(x))
+            for x in temp:
+                results.add(str(x))
         current_batch = temp
-        print current_batch
     results_ = [eval(x) for x in results]
-    return results_         
+    return results_
+    
+def read_matrix(filename):
+    
