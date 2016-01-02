@@ -164,7 +164,7 @@ def calculate_H(n):
     return -sum([wi*log(wi) for wi in weights])
     
 def calculate_S(n):
-    """Given a node weight, calculates the normalized entropy
+    """Given a node weight, calculates the normalized entropy (entropy divided by log of number of nodes)
     Args:
         n (dict): A dictionary of the form {node: weight...}
     Returns:
@@ -196,11 +196,11 @@ def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum"):
         reduced_trees = reduce_n_times(t, n, node_weights, how_many, sort_type)
         results = [apply_aggregation(_t, node_weights) for _t in reduced_trees]
     with open('results.csv', 'w') as csvfile:
-        fieldnames = ['tree id', 'number of nodes', 'entropy']
+        fieldnames = ['tree id', 'number of nodes', 'entropy', 'normalized entropy']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator='\n')
         writer.writeheader()
         for tree_id, t in enumerate(results):
-            writer.writerow({'tree id': tree_id, 'number of nodes': len(t), 'entropy': calculate_H(t)})
+            writer.writerow({'tree id': tree_id, 'number of nodes': len(t), 'entropy': calculate_H(t), 'normalized entropy': calculate_S(t)})
     return (reduced_trees, results)
     
 def draw_tree(t):
