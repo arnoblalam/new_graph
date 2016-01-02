@@ -104,21 +104,21 @@ The `draw_tree(t)` function takes a tree as an argument and plots the result on 
 
 ## Sample code
 
-	```python
-	import tree
+```python
+import tree
 
-	# load tree from disk
-	example_tree = tree.read_tree("example_tree.csv")
-	# load associated weights
-	example_weights = tree.read_tree_weights("example_tree_weights.csv")
-	# Aggregate to 2 node trees. Save the reuslting tree and tree_weights in the variables
-	# resulting_trees, resulting_weights
-	resulting_trees, resulting_weights = tree.aggregate(
-		example_tree, 
-		example_weights, 
-		desired_level=2, 
-		how_many=3, 
-		sort_type="maximum")
-	# Plot the tree with the ID 3
-	tree.draw_tree(resulting_trees[3])
-	```
+# load tree from disk
+example_tree = tree.read_tree("example_tree.csv")
+# load associated weights
+example_weights = tree.read_tree_weights("example_tree_weights.csv")
+# Aggregate to 2 node trees. Save the reuslting tree and tree_weights in the variables
+# resulting_trees, resulting_weights
+resulting_trees, resulting_weights = tree.aggregate(
+	example_tree, 
+	example_weights, 
+	desired_level=2, 
+	how_many=3, 
+	sort_type="maximum")
+# Plot the tree with the ID 3
+tree.draw_tree(resulting_trees[3])
+```
