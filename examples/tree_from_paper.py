@@ -25,5 +25,3 @@ node_weights = {
     '8': 100,
     '9': 200
     }
-
-print tree.reduce_n_times(test_tree, 3)

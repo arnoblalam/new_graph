@@ -1,0 +1,118 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module tree</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>tree</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C:/users/aalam/onedrive/documents/github/new_graph/tree.py">c:\users\aalam\onedrive\documents\github\new_graph\tree.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="cPickle.html">cPickle</a><br>
+</td><td width="25%" valign=top><a href="csv.html">csv</a><br>
+</td><td width="25%" valign=top><a href="networkx.html">networkx</a><br>
+</td><td width="25%" valign=top><a href="pandas.html">pandas</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-aggregate"><strong>aggregate</strong></a>(t, node_weights, desired_level, how_many<font color="#909090">=5</font>, sort_type<font color="#909090">='maximum'</font>)</dt><dd><tt>Reduces&nbsp;a&nbsp;tree&nbsp;n&nbsp;times<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;(dict):&nbsp;The&nbsp;tree&nbsp;to&nbsp;reduce&nbsp;(a&nbsp;dictionary&nbsp;of&nbsp;type&nbsp;{node:&nbsp;set([children])}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;(int):&nbsp;How&nbsp;many&nbsp;times&nbsp;to&nbsp;reduce&nbsp;the&nbsp;tree<br>
+&nbsp;&nbsp;&nbsp;&nbsp;node_weights&nbsp;(dict):&nbsp;A&nbsp;dictionary&nbsp;of&nbsp;the&nbsp;form&nbsp;{node:&nbsp;weight...}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;how_many&nbsp;(int):&nbsp;How&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sort_type&nbsp;(str):&nbsp;Either&nbsp;maximum&nbsp;or&nbsp;minimum<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;trees&nbsp;obtained&nbsp;by&nbsp;aggregating&nbsp;the&nbsp;trees&nbsp;n&nbsp;times<br>
+Side&nbsp;Effects:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates&nbsp;a&nbsp;file&nbsp;called&nbsp;results.csv</tt></dd></dl>
+ <dl><dt><a name="-apply_aggregation"><strong>apply_aggregation</strong></a>(t, node_data, f<font color="#909090">=&lt;function &lt;lambda&gt;&gt;</font>)</dt><dd><tt>Create&nbsp;the&nbsp;new&nbsp;tree&nbsp;t&nbsp;by&nbsp;applying&nbsp;the&nbsp;aggregations&nbsp;to&nbsp;weights&nbsp;described&nbsp;in&nbsp;node_data<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;(dict):&nbsp;The&nbsp;tree&nbsp;to&nbsp;aggregate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;node_data&nbsp;(dict):&nbsp;A&nbsp;dictionary&nbsp;of&nbsp;the&nbsp;form&nbsp;{node:&nbsp;weight...}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;f&nbsp;(function):&nbsp;an&nbsp;aggregation&nbsp;function&nbsp;that&nbsp;takes&nbsp;two&nbsp;parameters&nbsp;x&nbsp;and&nbsp;y<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;new&nbsp;node_data&nbsp;dictionary&nbsp;with&nbsp;the&nbsp;appropriate&nbsp;aggregations&nbsp;applied</tt></dd></dl>
+ <dl><dt><a name="-apply_tuple"><strong>apply_tuple</strong></a>(t, n, f)</dt><dd><tt>Internal&nbsp;function&nbsp;for&nbsp;applying&nbsp;aggregation&nbsp;for&nbsp;tupled&nbsp;keys</tt></dd></dl>
+ <dl><dt><a name="-calculate_H"><strong>calculate_H</strong></a>(n)</dt><dd><tt>Given&nbsp;node&nbsp;weights,&nbsp;calculates&nbsp;the&nbsp;entropy<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;(dict):&nbsp;A&nbsp;dictionary&nbsp;of&nbsp;the&nbsp;form&nbsp;{node:&nbsp;weight...}<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;entropy&nbsp;of&nbsp;the&nbsp;tree</tt></dd></dl>
+ <dl><dt><a name="-calculate_S"><strong>calculate_S</strong></a>(n)</dt><dd><tt>Given&nbsp;a&nbsp;node&nbsp;weight,&nbsp;calculates&nbsp;the&nbsp;normalized&nbsp;entropy<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;(dict):&nbsp;A&nbsp;dictionary&nbsp;of&nbsp;the&nbsp;form&nbsp;{node:&nbsp;weight...}<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;relative&nbsp;entropy&nbsp;of&nbsp;the&nbsp;tree</tt></dd></dl>
+ <dl><dt><a name="-deepcopy"><strong>deepcopy</strong></a>(obj)</dt><dd><tt>Creates&nbsp;a&nbsp;deep&nbsp;copy&nbsp;of&nbsp;an&nbsp;object<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;obj&nbsp;(any):&nbsp;The&nbsp;object&nbsp;to&nbsp;copy<br>
+Reutns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;copy&nbsp;of&nbsp;the&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-draw_tree"><strong>draw_tree</strong></a>(t)</dt><dd><tt>Plot&nbsp;a&nbsp;tree<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;(dict):&nbsp;The&nbsp;tree&nbsp;to&nbsp;plot&nbsp;(a&nbsp;dictionary&nbsp;of&nbsp;the&nbsp;form&nbsp;{node:&nbsp;children})<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;None<br>
+Side&nbsp;Effects:<br>
+&nbsp;&nbsp;&nbsp;Outputs&nbsp;the&nbsp;tree&nbsp;to&nbsp;screen</tt></dd></dl>
+ <dl><dt><a name="-log"><strong>log</strong></a>(...)</dt><dd><tt><a href="#-log">log</a>(x[,&nbsp;base])<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;logarithm&nbsp;of&nbsp;x&nbsp;to&nbsp;the&nbsp;given&nbsp;base.<br>
+If&nbsp;the&nbsp;base&nbsp;not&nbsp;specified,&nbsp;returns&nbsp;the&nbsp;natural&nbsp;logarithm&nbsp;(base&nbsp;e)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-merge_nodes"><strong>merge_nodes</strong></a>(t, nodes_to_merge)</dt><dd><tt>Merge&nbsp;two&nbsp;nodes&nbsp;together<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;(dict):&nbsp;The&nbsp;tree&nbsp;to&nbsp;aggregate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;node_to_merge&nbsp;(tuple):&nbsp;a&nbsp;tuple&nbsp;of&nbsp;form&nbsp;(node_1,&nbsp;node_2)&nbsp;which&nbsp;will&nbsp;be&nbsp;merged<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;copy&nbsp;of&nbsp;t&nbsp;with&nbsp;the&nbsp;two&nbsp;nodes&nbsp;merged</tt></dd></dl>
+ <dl><dt><a name="-possible_aggregations"><strong>possible_aggregations</strong></a>(t)</dt><dd><tt>Returns&nbsp;the&nbsp;possible&nbsp;aggregations&nbsp;of&nbsp;a&nbsp;tree<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;(dict):&nbsp;The&nbsp;tree&nbsp;to&nbsp;aggregate&nbsp;(of&nbsp;the&nbsp;form&nbsp;{node_1:&nbsp;{children}}<br>
+&nbsp;Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;set&nbsp;of&nbsp;possible&nbsp;aggregations&nbsp;of&nbsp;the&nbsp;tree&nbsp;t</tt></dd></dl>
+ <dl><dt><a name="-read_tree"><strong>read_tree</strong></a>(filename)</dt><dd><tt>Read&nbsp;a&nbsp;tree&nbsp;from&nbsp;a&nbsp;matrix&nbsp;(csv&nbsp;file<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;filename&nbsp;(csv&nbsp;file):&nbsp;The&nbsp;CSV&nbsp;file&nbsp;containing&nbsp;tree&nbsp;data&nbsp;in&nbsp;adjacency&nbsp;list&nbsp;format</tt></dd></dl>
+ <dl><dt><a name="-read_tree_weights"><strong>read_tree_weights</strong></a>(filename)</dt><dd><tt>Read&nbsp;a&nbsp;tree&nbsp;from&nbsp;a&nbsp;matrix&nbsp;(csv&nbsp;file<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;filename&nbsp;(csv&nbsp;file):&nbsp;The&nbsp;CSV&nbsp;file&nbsp;containing&nbsp;tree&nbsp;data&nbsp;in&nbsp;adjacency&nbsp;list&nbsp;format<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;dictionary&nbsp;of&nbsp;the&nbsp;form&nbsp;{node_name:&nbsp;weight}</tt></dd></dl>
+ <dl><dt><a name="-reduce_n_times"><strong>reduce_n_times</strong></a>(t, n, node_weights, how_many<font color="#909090">=5</font>, sort_type<font color="#909090">='maximum'</font>)</dt><dd><tt>Reduces&nbsp;a&nbsp;tree&nbsp;n&nbsp;times<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;(dict):&nbsp;The&nbsp;tree&nbsp;to&nbsp;reduce&nbsp;(a&nbsp;dictionary&nbsp;of&nbsp;type&nbsp;{node:&nbsp;set([children])}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;(int):&nbsp;How&nbsp;many&nbsp;times&nbsp;to&nbsp;reduce&nbsp;the&nbsp;tree<br>
+&nbsp;&nbsp;&nbsp;&nbsp;node_weights&nbsp;(dict):&nbsp;A&nbsp;dictionary&nbsp;of&nbsp;the&nbsp;form&nbsp;{node:&nbsp;weight...}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;how_many&nbsp;(int):&nbsp;How&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sort_type&nbsp;(str):&nbsp;Either&nbsp;maximum&nbsp;or&nbsp;minimum<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;trees&nbsp;obtained&nbsp;by&nbsp;aggregating&nbsp;the&nbsp;trees&nbsp;n&nbsp;times</tt></dd></dl>
+ <dl><dt><a name="-reduce_tree"><strong>reduce_tree</strong></a>(t)</dt><dd><tt>Reduce&nbsp;a&nbsp;tree&nbsp;one&nbsp;time<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;(dict):&nbsp;The&nbsp;tree&nbsp;to&nbsp;reduce<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;trees&nbsp;obtained&nbsp;by&nbsp;merging&nbsp;one&nbsp;node&nbsp;at&nbsp;a&nbsp;time</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>division</strong> = _Feature((2, 2, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 8192)</td></tr></table>
+</body></html>
