@@ -104,6 +104,7 @@ The `draw_tree(t)` function takes a tree as an argument and plots the result on 
 
 ## Sample code
 
+	```python
 	import tree
 
 	# load tree from disk
@@ -120,3 +121,4 @@ The `draw_tree(t)` function takes a tree as an argument and plots the result on 
 		sort_type="maximum")
 	# Plot the tree with the ID 3
 	tree.draw_tree(resulting_trees[3])
+	```
