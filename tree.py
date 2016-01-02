@@ -5,6 +5,7 @@ from math import log
 import csv
 from networkx import nx
 import pandas as pd
+import collections
 
 def deepcopy(obj):
     """Creates a deep copy of an object
@@ -14,6 +15,14 @@ def deepcopy(obj):
         A copy of the object
     """
     return cPickle.loads(cPickle.dumps(obj, -1))
+    
+def flatten(l):
+    for el in l:
+        if isinstance(el, collections.Iterable) and not isinstance(el, basestring):
+            for sub in flatten(el):
+                yield sub
+        else:
+            yield el
     
 def possible_aggregations(t):
     """Returns the possible aggregations of a tree
@@ -49,10 +58,10 @@ def merge_nodes(t, nodes_to_merge):
         if (a in v) or (b in v):
             copy_of_tree[k].discard(a)
             copy_of_tree[k].discard(b)
-            copy_of_tree[k].add((a, b))
+            copy_of_tree[k].add(frozenset(flatten((a, b))))
     copy_of_tree.pop(a, None)
     copy_of_tree.pop(b, None)
-    copy_of_tree[(a, b)] = combined_children
+    copy_of_tree[frozenset(flatten((a, b)))] = combined_children
     return copy_of_tree
     
 def apply_aggregation(t, node_data, f=lambda x, y: x+y):
@@ -67,10 +76,13 @@ def apply_aggregation(t, node_data, f=lambda x, y: x+y):
     try:
         result = dict()
         for k, v in t.iteritems():
-            if type(k) is not tuple:
+            if type(k) is not frozenset:
                 result[k] = node_data[k]
             else:
-                result[k] = apply_tuple(k, node_data, f)
+                intermediate = 0
+                for k_ in k:
+                    intermediate += node_data[k_]
+                result[k] = intermediate
         return result
     except:
         print(t)
@@ -114,7 +126,10 @@ def reduce_n_times(t, n, node_weights, how_many=5, sort_type="maximum"):
     for _ in range(n):
         temp_batch = []
         for t_ in current_batch:
-            temp_batch += reduce_tree(t_)
+            this_aggregate = reduce_tree(t_)
+            for s_ in this_aggregate:
+                if s_ not in temp_batch:
+                    temp_batch.append(s_)
         reweighted_trees = [apply_aggregation(_t, node_weights) for _t in temp_batch]
         current_batch_entropies = [calculate_H(_t) for _t in reweighted_trees]
         cb = []
@@ -146,7 +161,7 @@ def calculate_H(n):
         The entropy of the tree"""
     total = sum(n.itervalues())
     weights =  [wi/total for wi in n.itervalues()]
-    return round(-sum([wi*log(wi) for wi in weights]), 3)
+    return -sum([wi*log(wi) for wi in weights])
     
 def calculate_S(n):
     """Given a node weight, calculates the normalized entropy
