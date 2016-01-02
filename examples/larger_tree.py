@@ -57,6 +57,6 @@ artificial_tree_weights ={
 }
 
 #t = tree.reduce_n_times(artificial_tree, 10, artificial_tree_weights, 10)
-trees, weights = tree.aggregate(artificial_tree, artificial_tree_weights, 10, 25)
+trees, weights = tree.aggregate(artificial_tree, artificial_tree_weights, 2, 25)
 
 #print t
