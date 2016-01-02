@@ -35,8 +35,9 @@ However, the resulting trees are the same and have the same entropy.
 
 ## Using the library
 
-** Please see tree.html for further documentation **
-** Please see example.py for sample code **
+*Please see [tree.html] for further documentation*
+
+*Please see [example.py] for sample code*
 
 The library has three functions that should be run by the user:
 
