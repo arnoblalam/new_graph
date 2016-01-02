@@ -161,7 +161,7 @@ def calculate_H(n):
         The entropy of the tree"""
     total = sum(n.itervalues())
     weights =  [wi/total for wi in n.itervalues()]
-    return -sum([wi*log(wi) for wi in weights])
+    return -sum([wi*log(wi, 2) for wi in weights])
     
 def calculate_S(n):
     """Given a node weight, calculates the normalized entropy (entropy divided by log of number of nodes)
@@ -170,7 +170,7 @@ def calculate_S(n):
     Returns:
         The relative entropy of the tree
     """
-    return calculate_H(n)/log(len(n))
+    return calculate_H(n)/log(len(n), 2)
     
 def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum"):
     """Reduces a tree n times
