@@ -12,12 +12,9 @@ The following non-base libraries are required:
 
 In addition, for plotting graphviz is required
 
-# Known issues
+## Known issues
 
 None as of now
-
-Note that the first line is from aggregating node (1, 3) with node 4 and the second comes from aggregating node (1,4) with node 3.
-However, the resulting trees are the same and have the same entropy.
 
 ## Using the library
 
