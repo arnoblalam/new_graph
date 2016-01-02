@@ -10,27 +10,28 @@ The following non-base libraries are required:
 * networkx
 * pandas
 
+In addition, for plotting graphviz is required
+
 # Known issues
 
 * Duplicate trees at intermediate levels
 
-For example: If we have start of with the tree 1 -> [2, 3, 4], we get the following aggregations:
-(1,2) -> [3, 4]
-(1, 3) -> [2, 4]
-(1, 4) -> [2, 3]
-1 -> [(2, 3), 4]
-1 -> [2, (3, 4)]
-1 -> [(2, 4), 3]
+For example: If we have start of with the tree `1 -> [2, 3, 4]`, we get the following aggregations:
+
+    (1,2) -> [3, 4]
+    (1, 3) -> [2, 4]
+    (1, 4) -> [2, 3]
+    1 -> [(2, 3), 4]
+    1 -> [2, (3, 4)]
+    1 -> [(2, 4), 3]
 
 If we aggregate another level, we will get many aggregations, including:
 
-((1, 3), 4) -> [2]
-((1, 4), 3) -> [2]
+    ((1, 3), 4) -> [2]
+    ((1, 4), 3) -> [2]
 
 Note that the first line is from aggregating node (1, 3) with node 4 and the second comes from aggregating node (1,4) with node 3.
 However, the resulting trees are the same and have the same entropy.
-
-In addition, for plotting graphviz is required
 
 ## Using the library
 
