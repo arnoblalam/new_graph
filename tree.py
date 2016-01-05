@@ -212,7 +212,7 @@ def draw_tree(t):
     Side Effects:
        Outputs the tree to screen     
     """
-    G = nx.Graph(t)
+    G = nx.DiGraph(t)
     pos=nx.graphviz_layout(G,prog='dot')
     nx.draw(G,pos,with_labels=True,arrows=False)
     
