@@ -187,6 +187,9 @@ def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum"):
     """
     #global results
     results = []
+    h = []
+    s = []
+    n_ = []
     if desired_level < 2:
         raise Exception("Tree must have at least two levels")
     elif desired_level >= len(t):
@@ -200,8 +203,12 @@ def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum"):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator='\n')
         writer.writeheader()
         for tree_id, t in enumerate(results):
-            writer.writerow({'tree id': tree_id, 'number of nodes': len(t), 'entropy': calculate_H(t), 'normalized entropy': calculate_S(t)})
-    return (reduced_trees, results)
+            h.append(calculate_H(t))
+            s.append(calculate_S(t))
+            n_.append(len(t))
+            writer.writerow({'tree id': tree_id, 'number of nodes': n_, 'entropy': h, 'normalized entropy': s})
+    return pd.DataFrame({"tree_structure": reduced_trees, "weights": results, 
+        "nodes": n, "entropy": h, "normalized_entropy": s, "nodes": n_})
     
 def draw_tree(t):
     """Plot a tree
