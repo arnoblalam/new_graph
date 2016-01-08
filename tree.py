@@ -206,7 +206,7 @@ def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum"):
             h.append(calculate_H(t))
             s.append(calculate_S(t))
             n_.append(len(t))
-            writer.writerow({'tree id': tree_id, 'number of nodes': n_, 'entropy': h, 'normalized entropy': s})
+            writer.writerow({'tree id': tree_id, 'number of nodes': len(t), 'entropy': calculate_H(t), 'normalized entropy': calculate_S(t)})
     return pd.DataFrame({"tree_structure": reduced_trees, "weights": results, 
         "nodes": n, "entropy": h, "normalized_entropy": s, "nodes": n_})
     
