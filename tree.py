@@ -64,7 +64,7 @@ def merge_nodes(t, nodes_to_merge):
     copy_of_tree[frozenset(flatten((a, b)))] = combined_children
     return copy_of_tree
     
-def apply_aggregation(t, node_data, f=lambda x, y: x+y):
+def apply_aggregation(t, node_data, f):
     """Create the new tree t by applying the aggregations to weights described in node_data
     Args:
         t (dict): The tree to aggregate
@@ -79,26 +79,20 @@ def apply_aggregation(t, node_data, f=lambda x, y: x+y):
             if type(k) is not frozenset:
                 result[k] = node_data[k]
             else:
-                intermediate = 0
+                idx = []
                 for k_ in k:
-                    intermediate += node_data[k_]
-                result[k] = intermediate
+                    idx.append(k_)
+                first = idx[0]
+                second = idx[1]
+                result[k] = f(node_data[first], node_data[second])
+                #intermediate = 0
+                #for k_ in k:
+                #    intermediate = f(intermediate, node_data[k_])
+                #result[k] = intermediate
         return result
     except:
         print(t)
         raise
-        
-def apply_tuple(t, n, f):
-    """Internal function for applying aggregation for tupled keys
-    """
-    if type(t[0]) is not tuple and type(t[1]) is not tuple:
-        return f(n[t[0]], n[t[1]])
-    elif type(t[0]) is tuple and type(t[1]) is tuple:
-        return f(apply_tuple(t[0], n, f), apply_tuple(t[1], n, f))
-    elif type(t[0]) is tuple:
-        return f(apply_tuple(t[0], n, f), n[t[1]])
-    elif type(t[1]) is tuple:
-        return f(n[t[0]], apply_tuple(t[1], n, f))
         
 def reduce_tree(t):
     """Reduce a tree one time
@@ -109,7 +103,7 @@ def reduce_tree(t):
     """
     return [merge_nodes(t, x) for x in possible_aggregations(t)]
     
-def reduce_n_times(t, n, node_weights, how_many=5, sort_type="maximum"):
+def reduce_n_times(t, n, node_weights, f, how_many=5, sort_type="maximum"):
     """Reduces a tree n times
     Args:
         t (dict): The tree to reduce (a dictionary of type {node: set([children])}
@@ -130,7 +124,7 @@ def reduce_n_times(t, n, node_weights, how_many=5, sort_type="maximum"):
             for s_ in this_aggregate:
                 if s_ not in temp_batch:
                     temp_batch.append(s_)
-        reweighted_trees = [apply_aggregation(_t, node_weights) for _t in temp_batch]
+        reweighted_trees = [apply_aggregation(_t, node_weights, f) for _t in temp_batch]
         current_batch_entropies = [calculate_H(_t) for _t in reweighted_trees]
         cb = []
         if sort_type == "maximum":
@@ -172,7 +166,7 @@ def calculate_S(n):
     """
     return calculate_H(n)/log(len(n), 2)
     
-def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum"):
+def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum", f = lambda x, y: (x**0.5)*(y**0.5)):
     """Reduces a tree n times
     Args:
         t (dict): The tree to reduce (a dictionary of type {node: set([children])}
@@ -196,8 +190,8 @@ def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum"):
         results = [t]
     else:
         n = len(t) - desired_level
-        reduced_trees = reduce_n_times(t, n, node_weights, how_many, sort_type)
-        results = [apply_aggregation(_t, node_weights) for _t in reduced_trees]
+        reduced_trees = reduce_n_times(t=t, n=n, node_weights=node_weights, f=f,how_many=how_many, sort_type=sort_type)
+        results = [apply_aggregation(_t, node_weights, f) for _t in reduced_trees]
     with open('results.csv', 'w') as csvfile:
         fieldnames = ['tree id', 'number of nodes', 'entropy', 'normalized entropy']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator='\n')
