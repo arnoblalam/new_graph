@@ -126,6 +126,8 @@ def reduce_n_times(t, n, node_weights, f, how_many=5, sort_type="maximum", restr
                     temp_batch.append(s_)
         reweighted_trees = [apply_aggregation(_t, node_weights, f) for _t in temp_batch]
         current_batch_entropies = [calculate_H(_t) for _t in reweighted_trees]
+        if "largest_node" in restrictions:
+            print "I am here"
         cb = []
         if sort_type == "maximum":
             try:
