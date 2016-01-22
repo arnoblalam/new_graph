@@ -32,8 +32,8 @@ def possible_aggregations(t):
         The set of possible aggregations of the tree t
      """
     results = set()
-    for level, children in t.iteritems():
-        x = children | set([level])
+    for parent, children in t.iteritems():
+        x = children | set([parent])
         results |= set(combinations(x, 2))
     return results
     
