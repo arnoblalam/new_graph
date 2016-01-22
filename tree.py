@@ -103,7 +103,7 @@ def reduce_tree(t):
     """
     return [merge_nodes(t, x) for x in possible_aggregations(t)]
     
-def reduce_n_times(t, n, node_weights, f, how_many=5, sort_type="maximum"):
+def reduce_n_times(t, n, node_weights, f, how_many=5, sort_type="maximum", restrictions = []):
     """Reduces a tree n times
     Args:
         t (dict): The tree to reduce (a dictionary of type {node: set([children])}
@@ -166,7 +166,8 @@ def calculate_S(n):
     """
     return calculate_H(n)/log(len(n), 2)
     
-def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum", f = lambda x, y: (x**0.5)*(y**0.5)):
+def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum", 
+              f = lambda x, y: (x**0.5)*(y**0.5), restrictions=["largest_node"]):
     """Reduces a tree n times
     Args:
         t (dict): The tree to reduce (a dictionary of type {node: set([children])}
@@ -190,7 +191,9 @@ def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum", f
         results = [t]
     else:
         n = len(t) - desired_level
-        reduced_trees = reduce_n_times(t=t, n=n, node_weights=node_weights, f=f,how_many=how_many, sort_type=sort_type)
+        reduced_trees = reduce_n_times(t=t, n=n, node_weights=node_weights, 
+                                        f=f,how_many=how_many, 
+                                        sort_type=sort_type, restrictions=restrictions)
         results = [apply_aggregation(_t, node_weights, f) for _t in reduced_trees]
     with open('results.csv', 'w') as csvfile:
         fieldnames = ['tree id', 'number of nodes', 'entropy', 'normalized entropy']
