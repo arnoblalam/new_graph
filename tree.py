@@ -169,7 +169,7 @@ def calculate_S(n):
     return calculate_H(n)/log(len(n), 2)
     
 def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum", 
-              f = lambda x, y: (x**0.5)*(y**0.5), restrictions=["largest_node"]):
+              f = lambda x, y: (x**0.5)*(y**0.5), restrictions=[]):
     """Reduces a tree n times
     Args:
         t (dict): The tree to reduce (a dictionary of type {node: set([children])}
