@@ -16,6 +16,9 @@ def deepcopy(obj):
     """
     return cPickle.loads(cPickle.dumps(obj, -1))
     
+def total(n):
+    return sum(n.itervalues())
+    
 def flatten(l):
     for el in l:
         if isinstance(el, collections.Iterable) and not isinstance(el, basestring):
@@ -84,7 +87,10 @@ def apply_aggregation(t, node_data, f):
                     idx.append(k_)
                 first = idx[0]
                 second = idx[1]
-                result[k] = f(node_data[first], node_data[second])
+                tmp = []
+                for i in idx:
+                    tmp.append(node_data[i])
+                result[k] = reduce(f, tmp)
                 #intermediate = 0
                 #for k_ in k:
                 #    intermediate = f(intermediate, node_data[k_])
@@ -198,14 +204,14 @@ def aggregate(t, node_weights, desired_level, how_many=5, sort_type="maximum",
                                         sort_type=sort_type, restrictions=restrictions)
         results = [apply_aggregation(_t, node_weights, f) for _t in reduced_trees]
     with open('results.csv', 'w') as csvfile:
-        fieldnames = ['tree id', 'number of nodes', 'entropy', 'normalized entropy']
+        fieldnames = ['tree id', 'number of nodes', 'entropy', 'normalized entropy', 'total_efficiency']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator='\n')
         writer.writeheader()
         for tree_id, t in enumerate(results):
             h.append(calculate_H(t))
             s.append(calculate_S(t))
             n_.append(len(t))
-            writer.writerow({'tree id': tree_id, 'number of nodes': len(t), 'entropy': calculate_H(t), 'normalized entropy': calculate_S(t)})
+            writer.writerow({'tree id': tree_id, 'number of nodes': len(t), 'entropy': calculate_H(t), 'normalized entropy': calculate_S(t), 'total_efficiency': total(t)})
     return pd.DataFrame({"tree_structure": reduced_trees, "weights": results, 
         "nodes": n, "entropy": h, "normalized_entropy": s, "nodes": n_})
     
