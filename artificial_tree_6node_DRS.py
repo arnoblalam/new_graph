@@ -1,4 +1,5 @@
 import tree
+import math
 
 artificial_tree = {
 1:set([2,3,4,5]),
@@ -30,15 +31,14 @@ artificial_tree_weights ={
 12:13
 }
 
-#import math
-
-#def myAggregationFunction(x, y):
-#    alpha = (2**((x+y)/10-5))**-1
-#    return (x+y)**alpha
+def myAggregationFunction(x, y):
+    alpha = 50.0/(x+y)
+    z = (x+y)**alpha
+    return z
     
-#results = tree.aggregate(artificial_tree, artificial_tree_weights, 6, 70000, sort_type="maximum", f=myAggregationFunction)
+results = tree.aggregate(artificial_tree, artificial_tree_weights, 6, 70000, sort_type="maximum", f=myAggregationFunction)
 
 
-results = tree.aggregate(artificial_tree, artificial_tree_weights, 6, 10, sort_type="maximum", f=lambda x,y: x+y)
+#results = tree.aggregate(artificial_tree, artificial_tree_weights, 6, 70000, sort_type="maximum", f=lambda x,y: (x+y)**1.5)
 
-#tree.draw_tree(artificial_tree)
+tree.draw_tree(artificial_tree)
